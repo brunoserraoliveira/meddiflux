@@ -24,4 +24,6 @@ phases:
       - echo Gerando artefato da imagem para o Elastic Beanstalk...
       - printf '[{"name":"Meddiflux","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
-  files: imagedefinitions.json
+  files: 
+    - imagedefinitions.json
+    - Dockerfile
