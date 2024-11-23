@@ -12,6 +12,9 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
+
+    document.title = "meddiflux"; // Altere aqui para o nome desejado
+
     const getTasks = async () => {
       const tasksFromServer = await fetchTasks();
       setTasks(tasksFromServer);
