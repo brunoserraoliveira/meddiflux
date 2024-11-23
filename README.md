@@ -1,8 +1,6 @@
-## Projeto base para o evento Bootcamp Imersão AWS que irei realizar.
+# Projeto Meddiflux
 
-### Período do evento: 14 a 20 de Outubro/2024 (Online e ao Vivo às 20h)
-
-[>> Página de Inscrição do evento](https://org.imersaoaws.com.br/github/readme)
+## Pipeline do app meddiflux
 
 #### Para rodar as migrations no container ####
 ```
