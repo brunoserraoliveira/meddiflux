@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DadosHenrylle from "./DadosHenrylle";
+import DadosHenrylle from "./DadosBruno";
 const About = () => {
   return (
     <div>

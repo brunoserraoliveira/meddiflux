@@ -1,0 +1,35 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Fazendo login no ECR...      
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 288761769929.dkr.ecr.us-east-1.amazonaws.com
+      - REPOSITORY_URI=288761769929.dkr.ecr.us-east-1.amazonaws.com/meddiflux
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Build iniciado em `date`
+      - echo Gerando imagem da Meddiflux...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build finalizado com sucesso em `date`
+      - echo Fazendo push da imagem para o ECR...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - githash=${CODEBUILD_RESOLVED_SOURCE_VERSION:0:7}
+      - echo $githash
+      - echo $ambienteurl
+      - echo $ambientes3cdn 
+      - sed "s/meddiflux:latest/meddiflux:$githash/g" docker-compose-modelo.yml > docker-compose.yml
+      - cat docker-compose-modelo.yml
+      - cat docker-compose.yml  
+      - npm install
+      - NODE_OPTIONS=--openssl-legacy-provider REACT_APP_API_URL=$ambienteurl SKIP_PREFLIGHT_CHECK=true npm run build --prefix client
+      - aws s3 sync client/build s3://assetseb/$ambientes3cdn --exclude "index.html"
+      - aws s3 sync client/build s3://assetseb/$ambientes3cdn --exclude "*" --include "index.html"
+artifacts:
+    files: docker-compose.yml

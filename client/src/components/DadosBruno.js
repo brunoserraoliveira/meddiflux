@@ -49,7 +49,7 @@ const DadosHenrylle = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Desafio Labs de AWS dos alunos no Linkedin
+            Desafio projetos Beanstalk
           </a>
         </li>
       </ul>
